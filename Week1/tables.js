@@ -3,23 +3,23 @@ var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'hyfuser',
     password : 'hyfpassword',
+    //database: "meetup"
     //multipleStatements: true // this allow you to run multiple queries at once. ??gave a mistake ??when does is use right
 });
 
+
+// create tables
 connection.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    //  create database
     connection.query("CREATE DATABASE meetup", function (err, result) {
       if (err) throw err;
       console.log("Database created");
     });
-    // select nesessary database
     connection.query("USE meetup", function (err, result) {
       if (err) throw err;
-      console.log("Database used ");
+      console.log("Database used");
     });
-    // create tables in the selected database
     var sql = "CREATE TABLE Invitee (invitee_no int(10), invitee_name VARCHAR(50), invited_by bool)";
     connection.query((sql), function (err, result) {
       if (err) throw err;
@@ -37,7 +37,7 @@ connection.connect(function(err) {
       console.log("Table created");
     });
 // adding information rows
-// first table plus 6 rows
+// first table plus rows
 var sql = "INSERT INTO Invitee (invitee_no, invitee_name, invited_by) VALUES?";
 var values = [
     [ 1, 'John', true],
@@ -52,7 +52,7 @@ connection.query((sql), [values], function (err, result) {
     // use "result.affectedRows" to show numbers of added rows
     console.log("Number of records inserted: " + result.affectedRows);
 });
-// second table plus 6 rows
+// second table plus rows
 var sqlSecond = "INSERT INTO Room (room_no, room_name, floor_number) VALUES?";
 var valuesSecond = [
     [ 1, 'Standart', 2],
@@ -66,7 +66,7 @@ connection.query((sqlSecond), [valuesSecond], function (err, result) {
     if (err) throw err;
     console.log("Number of records inserted: " + result.affectedRows);
 });
-//  third table plus 5 rows
+//  third table plus rows
 var sqlThird = "INSERT INTO Meeting (meeting_no, meeting_title, starting_time, ending_time, room_no) VALUES?";
 var valuesThird = [
     [ 1, 'Negotiations with investors', "09:30:07", "11:30:07", 5],
@@ -79,7 +79,7 @@ connection.query((sqlThird), [valuesThird], function (err, result) {
     if (err) throw err;
     console.log("Number of records inserted: " + result.affectedRows);
 });
-// end connection
+// 
     connection.end(function(err) {
       if (err) {
         return console.log(err.message);
