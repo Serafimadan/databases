@@ -34,7 +34,7 @@ connection.connect(function(err) {
         console.log(result);
     });
     // 6
-    connection.query("SELECT name  AS City FROM city WHERE countryCode = 'nld'", function (err, result, fields) {
+    connection.query("SELECT name  AS City FROM city WHERE countryCode = 'NLD'", function (err, result, fields) {
         if (err) throw err;
         console.log(result);
     });
