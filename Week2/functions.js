@@ -12,21 +12,21 @@ connection.connect(function(err) {
 
     // 1 all research papers and the number of authors (authors+collaborators) that wrote that paper 
     // all the time for each researh we have 1 author and a few or 1 collaborators
-    var selectNumbersOfAuthors = `SELECT count(ac.author_no) + 1 AS Authors_number, r.paper_title AS Research_title
+    var selectNumbersOfAuthors = `SELECT count(ac.author_no) AS Authors_number, r.paper_title AS Research_title
         FROM Research_Papers as r
         LEFT JOIN Author_Research_Papers as p
         ON p.paper_id = r.paper_id
         LEFT JOIN Authors as ac
-        ON ac.collaborator = p.author_no
+        ON ac.author_no = p.author_no
         GROUP BY r.paper_title;`;
     connection.query(selectNumbersOfAuthors, function (err, result, fields) {
         if (err) throw err;
         console.log(result , "Query successful!");
     });
     // 2
-    var selectSumWomensResearch = `SELECT COUNT(r.paper_id)
+    var selectSumWomensResearch = `SELECT COUNT(distinct r.paper_id)
         FROM Author_Research_Papers as r
-        LEFT JOIN Authors as a
+        JOIN Authors as a
         ON r.author_no = a.author_no
         WHERE a.gender = 'f';`;
     connection.query(selectSumWomensResearch, function (err, result, fields) {
@@ -40,13 +40,14 @@ connection.connect(function(err) {
         console.log(result , "Query successful!");
     });
     // 4
-    var countSumOfResearchInUniversitys = `SELECT COUNT(r.paper_title) as Number_of_Research, a.university as University
+    var countSumOfResearchInUniversitys = `SELECT COUNT(distinct r.paper_title) as Number_of_Research, a.university as University
     FROM Author_Research_Papers p
     LEFT JOIN Research_Papers r
     ON r.paper_id = p.paper_id
     LEFT JOIN Authors a
     ON p.author_no = a.author_no
-    GROUP BY a.university;`;
+    GROUP BY a.university
+    ORDER BY Number_of_Research asc;`;
     connection.query(countSumOfResearchInUniversitys, function (err, result, fields) {
         if (err) throw err;
         console.log(result , "Query successful!");

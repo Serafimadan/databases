@@ -13,7 +13,7 @@ connection.connect(function(err) {
     var selectOfPairsAuthorToCollaborator = `SELECT a1.author_name as author, a2.author_name as collaborator 
         FROM company.Authors as a1 
         JOIN company.Authors as a2 
-        ON a1.author_no = a2.collaborator`;
+        ON a2.author_no = a1.collaborator`;
     connection.query(selectOfPairsAuthorToCollaborator, function (err, result, fields) {
         if (err) throw err;
         console.log(result , "Query successful!");
@@ -28,7 +28,7 @@ connection.connect(function(err) {
     ORDER BY a.author_no ASC;`;
     connection.query(selectAllInformOfAuthorsReserch, function (err, result, fields) {
         if (err) throw err;
-        console.log(result , "Query successful!");
+        console.log(result , "Insert!");
     });
 
     // end connection
