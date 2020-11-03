@@ -1,0 +1,23 @@
+All the steps of conversion:
+--------------------------------
+Firstly, I save nessecary tables in csv format. I used commands from reading material with little changis 
+(select * into outfile '/Users/Shared/city.csv' FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' from city;).
+To do it right I was forced to put in my file my.cnf with one new row 'secure_file_priv="/Users/Shared"'
+for avoid following mistake "ERROR 1290 (HY000): The MySQL server is running with the --secure-file-priv option so 
+it cannot execute this statement".
+
+Then, on the https://www.mongodb.com/cloud/atlas made registration and
+created a new cluster (was choosed Azure , Europe , Netherlands).
+
+I have followed all steps wich offered by sistem (Build your first cluster;-> Create your first database user; ->
+Whitelist your IP address; -> Load Sample Data (Optional).
+
+I selected a connection method - MongoDB compass.
+Downloaded MongoDB Compass to my computer.
+Pasted a link from Atlas into MongoDB 
+compass pow in my local machine, replaced "<password>" with my password of the database.
+
+Then, I created a database (World) and a collections name (city, country, countrylanguage) in MongoDB compass. 
+In every collections was imported the nessecary data from csv files. 
+After, in Atlas I saw my database and collections.
+______________________________

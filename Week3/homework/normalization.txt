@@ -1,0 +1,84 @@
+/** 
+* 1. How can you convert the table into 1NF ?
+* The key property of the first normal form is atomicity: there can be only one value in the table cells, 
+* for example, if the column is called full name, then the value will be Jhon Lenon, in our table
+* food_code and food_description violate the rule of atomicity
+*/
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+| member_id | member_name   | member_address | dinner_id | dinner_date | venue_code | venue_description | food_code | food_description |
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+|         1 | Amit          | 325 Max park   | D00001001 | 2020-03-15  | B01        | Grand Ball Room   | C1, C2    | Curry, Cake      |
+|         2 | Ben           | 24 Hudson lane | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | S1, C2    | Soup, Cake       |
+|         3 | Cristina      | 516 6th Ave    | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | S1, C2    | Soup, Cake       |
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+
+/**
+ * The table in the table below is in first normal form, since each cell contains only one Boolean value, that is, the atomic 
+ * property was observed. We achieved this by duplicating data about a every person who has a double data in one row , therefore, 
+ * we introduced redundancy into the database, but brought it to the first normal form. The second normal form will help us 
+ * get rid of redundancy in the database.
+ */
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+| member_id | member_name   | member_address | dinner_id | dinner_date | venue_code | venue_description | food_code | food_description |
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+|         1 | Amit          | 325 Max park   | D00001001 | 2020-03-15  | B01        | Grand Ball Room   | C1        | Curry            |
+|         2 | Ben           | 24 Hudson lane | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | S1        | Soup             |
+|         3 | Cristina      | 516 6th Ave    | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | S1        | Soup             |
+|         4 | Amit          | 325 Max park   | D00001001 | 2020-03-15  | B01        | Grand Ball Room   | C2        | Cake             |
+|         5 | Ben           | 24 Hudson lane | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | C2        | Cake             |
+|         6 | Cristina      | 516 6th Ave    | D00001002 | 2020-03-15  | B02        | Zoku Roof Top     | C2        | Cake             |
++-----------+---------------+----------------+-----------+-------------+------------+-------------------+-----------+------------------+
+
+// 2. What are the super, candidate, primary keys in the table created in step (1)?
+/**
+ * primary key - member_id;
+ * super keys - some combinations any columns with member_name and member_id columns.
+ * SK1 - member_name, food_code, food_description; SK2 - member_id, food_code, food_description.
+ * candidate keys -  derived from my super key can be CK1 - member_name, food_code:
+ *  CK2 - member_id, food_description
+ */
+
+//  3. How can you develop the set of 2NF tables? (Think of relationships between different tables).
+/**
+ * For to make previous table according of 2NF I need to devide this 
+ * table to four: 1. food_info, 2. members_info, 3. dinner_info, 4. venue_info 
+ */
++-----------+------------------+------------------+   
+|food_code  | food_description | venue_code       |
++-----------+------------------+------------------+
+| C1        | Curry            | B01              |
+| S1        | Soup             | B02              |  
+| C2        |  Cake            | B02              |
++-----------+------------------+------------------+
+//  in food_info table primary key is food_code, foregn key is venue_code reference to venue_info table 
++-----------+---------------+----------------+----------------+
+| member_id | member_name   | member_address | dinner_id      | 
++-----------+---------------+----------------+----------------+
+|         1 | Amit          | 325 Max park   | D00001001      |
+|         2 | Ben           | 24 Hudson lane | D00001002      | 
+|         3 | Cristina      | 516 6th Ave    | D00001002      | 
+|-----------+---------------+----------------+----------------+
+//  in second table primary key is member_id, foregn key is dinner_id
++-----------+-------------+----------------+
+| dinner_id | dinner_date | venue_code     |
++-----------+-------------+----------------+
+| D00001001 | 2020-03-15  | B01            |
+| D00001002 | 2020-03-15  | B02            |
++-----------+-------------+----------------+
+//  in the dinner_info table primary key is dinner_id, foregn key is venue_code
++----------------+-------------------+
+| venue_code     | venue_description |
++----------------+-------------------+
+| B01            | Grand Ball Room   |
+| B02            | Zoku Roof Top     |
++----------------+-------------------+
+//  in the last table primary key is venue_code
+
+// 4. How can you develop the set of 3NF tables?
+/**
+ * The normal form 3NF requirement is that tables do not have transitive dependencies. 
+ * Non-key columns should not try to act as a key in a table, i.e. they really should be non-key columns, 
+ * such columns do not provide an opportunity to get data from other columns, they provide an opportunity 
+ * to look at the information that they contain, since this is their purpose. In the previous task, 
+ * I have already done the tables in form 3NF in previous task.
+ */
